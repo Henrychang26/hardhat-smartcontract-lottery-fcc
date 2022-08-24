@@ -1,4 +1,4 @@
-const { network, ethers ,getNamedAccounts, deployments, run } = require("hardhat")
+const { network, ethers } = require("hardhat")
 const { developmentChains, networkConfig } = require("../helper-hardhat-config")
 const { verify } = require("../utils/verify")
 
@@ -30,24 +30,24 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
 
     const args = [
         vrfCoordinatorV2Address,
-        entranceFee,
-        gasLane,
         subscriptionId,
-        callbackGasLimit,
+        gasLane,
         interval,
+        entranceFee,
+        callbackGasLimit,
     ]
-    const lottery = await deploy("Lottery", {
+    const raffle = await deploy("Raffle", {
         from: deployer,
         args: args,
         log: true,
-        waitConfirmations: network.config.blockConfirmation || 1,
+        waitConfirmations: network.config.blockConfirmations || 1,
     })
 
     if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
         log("verifying...")
-        await verify(lottery.address, args)
+        await verify(raffle.address, args)
     }
     log("------------------------")
 }
 
-module.exports.tags = ["all", "lottery"]
+module.exports.tags = ["all", "raffle"]
