@@ -27,105 +27,105 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
               })
           })
         })
-    //       describe("enterLottery", function () {
-    //           it("reverts when you dont pay enough", async function () {
-    //               await expect(lottery.enterLottery()).to.be.revertedWith(
-    //                   "Lottery__NotEnoughETHEntered"
-    //               )
-    //           })
-    //           it("records players when they enter", async function () {
-    //               await lottery.enterLottery({ value: lotteryEntranceFee })
-    //               const playerFromContract = await lottery.getPlayer(0)
-    //               assert.equal(playerFromContract, deployer)
-    //           })
-    //           it("emits event on enter", async function () {
-    //               await expect(lottery.enterLottery({ value: lotteryEntranceFee })).to.emit(
-    //                   lottery,
-    //                   "LotteryEnter"
-    //               )
-    //           })
-    //           it("doesn't allow players to enter lottery when not OPEN", async function () {
-    //               await lottery.enterLottery({ value: lotteryEntranceFee })
-    //               await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
-    //               await network.provider.send("evm_mine", [])
-    //               //   await network.provider.request({method: "evm_mine", params: []})
-    //               await lottery.performUpkeep([])
-    //               await expect(
-    //                   lottery.enterLottery({ value: lotteryEntranceFee })
-    //               ).to.be.revertedWith("Lottery__NotOpen")
-    //           })
-    //       })
-    //       describe("checkUpkeep", function () {
-    //           it("returns false if people havent send any Eth", async function () {
-    //               await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
-    //               await network.provider.send("evm_mine", [])
-    //               const { upkeepNeeded } = await lottery.callStatic.checkUpkeep([])
-    //               assert(!upkeepNeeded)
-    //           })
-    //           it("returns false if lottery isnt Open", async function () {
-    //               await lottery.enterLottery({ value: lotteryEntranceFee })
-    //               await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
-    //               await network.provider.request("evm_mine", [])
-    //               await lottery.performUpkeep([])
-    //               const lotteryState = await lottery.getLotteryState()
-    //               const { upkeepNeeded } = await lottery.callStatic.checkUpkeep([])
-    //               assert.equal(lotteryState.toString(), "1")
-    //               assert.equal(upkeepNeeded, false)
-    //           })
-    //           it("returns false if enough time hasnt passed", async function () {
-    //               await lottery.enterLottery({ value: lotteryEntranceFee })
-    //               await network.provider.send("evm_increaseTime", [interval.toNumber() - 1])
-    //               await network.provider.request({ method: "evm_mine", params: [] })
-    //               const { upkeepNeeded } = await lottery.callStatic.checkUpkeep("0x")
-    //               assert(!upkeepNeeded)
-    //           })
-    //           it("returns true if enough has passed, has players, eth and is open", async function () {
-    //               await lottery.enterLottery({ value: lotteryEntranceFee })
-    //               await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
-    //               await network.provider.request({ method: "evm_mine", params: [] })
-    //               const { upkeepNeeded } = await lottery.callStatic.checkUpkeep("0x")
-    //               assert(upkeepNeeded)
-    //           })
-    //       })
-    //       describe("performUpkeep", function () {
-    //           it("it can only run if checkupkeep is true", async function () {
-    //               await lottery.enterLottery({ value: lotteryEntranceFee })
-    //               await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
-    //               await network.provider.request("evm_mine", [])
-    //               const tx = await lottery.performUpkeep([])
-    //               assert(tx)
-    //           })
-    //           it("reverts when checkupkeep is false", async function () {
-    //               await expect(lottery.performUpkeep([])).to.be.revertedWith(
-    //                   "Lottery__UpkeepNotNeeded"
-    //               )
-    //           })
-    //           it("updates the lottery statem emit, and event, and calls the vrf coordinator", async function () {
-    //               await lottery.enterLottery({ value: lotteryEntranceFee })
-    //               await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
-    //               await network.provider.send("evm_mine", [])
-    //               const txResponse = await lottery.performUpkeep([])
-    //               const txReceipt = await txResponse.wait(1)
-    //               const requestId = txReceipt.event[1].args.requestId
-    //               const lotteryState = await lottery.getLotteryState()
-    //               assert(requestId.toNumber() > 0)
-    //               assert(lotteryState.toString() == "1")
-    //           })
-    //       })
-    //       describe("fullfillRandomWords", function () {
-    //           beforeEach(async function () {
-    //               await lottery.enterLottery({ value: lotteryEntranceFee })
-    //               await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
-    //               await network.provider.send("evm_mine", [])
-    //           })
-    //           it("can only be called after performUpkeep", async function () {
-    //               await expect(
-    //                   vrfCoordinatorV2Mock.fulfillRandomWords(0, lottery.address)
-    //               ).to.be.revertedWith("nonexistent request")
-    //               await expect(
-    //                   vrfCoordinatorV2Mock.fulfillRandomWords(1, lottery.address)
-    //               ).to.be.revertedWith("nonexistent request")
-    //           })
+          describe("enterRaffle", function () {
+              it("reverts when you dont pay enough", async function () {
+                  await expect(raffle.enterLottery()).to.be.revertedWith(
+                      "error Raffle__SendMoreToEnterRaffle"
+                  )
+              })
+              it("records players when they enter", async function () {
+                  await raffle.enterRaffle({ value: raffleEntranceFee })
+                  const playerFromContract = await raffle.getPlayer(0)
+                  assert.equal(playerFromContract, deployer)
+              })
+              it("emits event on enter", async function () {
+                  await expect(raffle.enterRaffle({ value: raffleEntranceFee })).to.emit(
+                      raffle,
+                      "RaffleEnter"
+                  )
+              })
+              it("doesn't allow players to enter raffle when not OPEN", async function () {
+                  await raffle.enterRaffle({ value: raffleEntranceFee })
+                  await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
+                  await network.provider.send("evm_mine", [])
+                  //   await network.provider.request({method: "evm_mine", params: []})
+                  await raffle.performUpkeep([])
+                  await expect(
+                      raffle.enterRaffle({ value: raffleEntranceFee })
+                  ).to.be.revertedWith("Raffle__RaffleNotOpen")
+              })
+          })
+          describe("checkUpkeep", function () {
+              it("returns false if people havent send any Eth", async function () {
+                  await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
+                  await network.provider.send("evm_mine", [])
+                  const { upkeepNeeded } = await raffle.callStatic.checkUpkeep([])
+                  assert(!upkeepNeeded)
+              })
+              it("returns false if raffle isnt Open", async function () {
+                  await raffle.enterRaffle({ value: raffleEntranceFee })
+                  await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
+                  await network.provider.request("evm_mine", [])
+                  await raffle.performUpkeep([])
+                  const raffleState = await raffle.getRaffleState()
+                  const { upkeepNeeded } = await raffle.callStatic.checkUpkeep([])
+                  assert.equal(raffleState.toString(), "1")
+                  assert.equal(upkeepNeeded, false)
+              })
+              it("returns false if enough time hasnt passed", async function () {
+                  await raffle.enterRaffle({ value: raffleEntranceFee })
+                  await network.provider.send("evm_increaseTime", [interval.toNumber() - 1])
+                  await network.provider.request({ method: "evm_mine", params: [] })
+                  const { upkeepNeeded } = await raffle.callStatic.checkUpkeep("0x")
+                  assert(!upkeepNeeded)
+              })
+              it("returns true if enough time has passed, has players, eth and is open", async function () {
+                  await raffle.enterRaffle({ value: raffleEntranceFee })
+                  await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
+                  await network.provider.request({ method: "evm_mine", params: [] })
+                  const { upkeepNeeded } = await raffle.callStatic.checkUpkeep("0x")
+                  assert(upkeepNeeded)
+              })
+          })
+          describe("performUpkeep", function () {
+              it("it can only run if checkupkeep is true", async function () {
+                  await raffle.enterRaffle({ value: raffleEntranceFee })
+                  await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
+                  await network.provider.request("evm_mine", [])
+                  const tx = await raffle.performUpkeep([])
+                  assert(tx)
+              })
+              it("reverts when checkupkeep is false", async function () {
+                  await expect(raffle.performUpkeep([])).to.be.revertedWith(
+                      "Raffle__UpkeepNotNeeded"
+                  )
+              })
+              it("updates the raffle state emit, and event, and calls the vrf coordinator", async function () {
+                  await raffle.enterRaffle({ value: raffleEntranceFee })
+                  await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
+                  await network.provider.send("evm_mine", [])
+                  const txResponse = await raffle.performUpkeep([])
+                  const txReceipt = await txResponse.wait(1)
+                  const requestId = txReceipt.event[1].args.requestId
+                  const raffleState = await raffle.getRaffleState()
+                  assert(requestId.toNumber() > 0)
+                  assert(raffleState.toString() == "1")
+              })
+          })
+          describe("fullfillRandomWords", function () {
+              beforeEach(async function () {
+                  await raffle.enterRaffle({ value: raffleEntranceFee })
+                  await network.provider.send("evm_increaseTime", [interval.toNumber() + 1])
+                  await network.provider.send("evm_mine", [])
+              })
+              it("can only be called after performUpkeep", async function () {
+                  await expect(
+                      vrfCoordinatorV2Mock.fulfillRandomWords(0, raffle.address)
+                  ).to.be.revertedWith("nonexistent request")
+                  await expect(
+                      vrfCoordinatorV2Mock.fulfillRandomWords(1, raffle.address)
+                  ).to.be.revertedWith("nonexistent request")
+              })
     //           //big test that puts everything together
     //           it("picks a winner, resets the lottery, and sends money", async function () {
     //               const additionalEntrants = 3
