@@ -37,19 +37,38 @@ module.exports = {
         },
         rinkeby: {
             chainId: 4,
-            blockConfirmations : 6,
+            blockConfirmations: 6,
             url: RINKEBY_RPC_URL,
-            accounts: [PRIVATE_KEY]
+            accounts: [PRIVATE_KEY],
         },
     },
-    solidity: "0.8.7",
+    solidity: {
+        compilers: [
+            {
+                version: "0.8.7",
+            },
+            {
+                version: "0.4.24",
+            },
+        ],
+    },
     namedAccounts: {
-        deployer:{
+        deployer: {
             default: 0,
         },
         player: {
-            default:1,
+            default: 1,
+        },
+    },
+    mocha: {
+        timeout: 300000, // 500 seconds max for running tests
+    },
+    etherscan: {
+        // yarn hardhat verify --network <NETWORK> <CONTRACT_ADDRESS> <CONSTRUCTOR_PARAMETERS>
+        apiKey: {
+            rinkeby: ETHERSCAN_API_KEY,
+            kovan: ETHERSCAN_API_KEY,
+            polygon: POLYGONSCAN_API_KEY,
         },
     },
 }
-    
